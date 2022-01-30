@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Estadísticas - Listar Actividades";
+}
+<h3>Estadísticas - Listar Actividades por un lugar</h3>
+
+<form method="post" id="formBuscarAct">
+    <label>Seleccione un Lugar</label><br />
+    <select name="lugar" id="lugar">
+     @foreach (var lug in ViewBag.Lugares)
+        {  
+            <option value="@lug.Nombre" id="lugar">@lug.Nombre</option>
+
+        }
+    </select><br />
+    <input type="submit" value="Buscar" />
+</form>
+
+<p id="pMensaje">@ViewBag.Msg</p>
+
+
+@if (ViewBag.LugaresEnc != null && ViewBag.Msg == null) {
+<table border="1">
+    <thead>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Categoría
+            </th>
+            <th>
+                Fecha y Hora
+            </th>            
+            <th>
+                Edad Mínima
+            </th>
+            <th>
+                Precio
+            </th>
+        </tr>
+    </thead>
+    @foreach (var actEnc in ViewBag.LugaresEnc) {
+
+        <tbody>
+            <tr>
+                <td>
+                    @actEnc.Nombre
+                </td>
+                <td>                   
+                    @actEnc.CategoriaTipo.Nombre                   
+                </td>
+                <td>
+                    @actEnc.FechaHora
+                </td>                
+                <td>
+                    @actEnc.EdadMinima
+                </td>
+                <td>
+                    @actEnc.PrecioFinal()
+                </td>
+            </tr>
+        </tbody>
+    }
+    </table>
+}
+
+@section Scripts{
+
+    <script>
+        document.querySelector("#formBuscarAct").addEventListener('submit', evaluarBuscar)
+
+        function evaluarBuscar(evento) {
+            evento.preventDefault();
+
+            let lugar = document.querySelector("#lugar").value;
+
+            if (lugar != "") {
+                this.submit();
+            } else {
+                document.querySelector("#pMensaje").innerHTML = "Debe seleccionar un lugar para realizar la búsqueda."
+            }
+
+        }
+    </script>
+}
+
+<style>
+    th,td{
+        padding:4px;
+        background-color:azure;
+    }
+</style>
+

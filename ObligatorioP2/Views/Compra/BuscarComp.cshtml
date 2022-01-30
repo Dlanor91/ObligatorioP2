@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Buscar Compras";
+}
+
+<h3>Visualizar compras en un rango de Fechas y su costo total</h3>
+
+<form method="post" id="formBuscarCompras">
+    <label>Ingrese la Fecha Inicial:</label><br />
+    <input name="fechaInic" type="date" id="fechaInic" /><br />
+    <label>Ingrese la Fecha Final:</label><br />
+    <input name="fechaFinal" type="date" id="fechaFinal" /><br />
+    <input type="submit" value="Buscar" />
+</form>
+<p id="pMensaje">@ViewBag.Msg</p>
+
+@if (ViewBag.Enc != null && ViewBag.Msg == null)
+{
+    <table border="1">
+        <thead>
+            <tr>
+                <th>
+                    Actvidad
+                </th>
+                <th>
+                    Comprador
+                </th>
+                <th>
+                    Cantidad de Entradas
+                </th>
+                <th>
+                    Fecha y Hora
+                </th>
+                <th>
+                    Estado
+                </th>
+                <th>
+                    Costo Total
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var c in ViewBag.Enc)
+        {
+        
+        <tbody>
+            <tr>
+                <td>
+                    @c.ActComprada.Nombre
+                </td>
+                <td>
+                    @c.UsuarioCompra.Nombre @c.UsuarioCompra.Apellido
+                </td>
+                <td>
+                    @c.CantEntradas
+                </td>
+                <td>
+                    @c.FechaHora
+                </td>
+                @if (@c.EstadoCompra)
+                {
+                    <td>
+                        Activa
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        Cancelada
+                    </td>
+                }
+                <td>
+                    @c.PrecioFinalCompra()
+                </td>
+            </tr>
+        </tbody>
+        }
+        
+    </table>
+}
+
+    @section Scripts{
+        <script>
+            document.querySelector("#formBuscarCompras").addEventListener('submit', buscarCompras)
+            function buscarCompras(evento) {
+                evento.preventDefault();
+                let fechaInic = document.querySelector("#fechaInic").value;
+                let fechaFinal = document.querySelector("#fechaFinal").value;
+
+                if (fechaInic != "" && fechaFinal != "") {
+                    this.submit();
+                } else {
+                    document.querySelector("#pMensaje").innerHTML = "Complete todos los campos para la búsqueda";
+                }
+            }
+        </script>
+    }
+
+    <style>
+        th, td {
+            padding: 4px;
+            background-color: antiquewhite;
+        }
+    </style>

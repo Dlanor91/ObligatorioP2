@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Cancelar Compra";
+}
+
+<form method="post">
+    <label>Nombre de Actividad</label>
+    <input type="text" value="@ViewBag.Compra.ActComprada.Nombre" readonly />
+    <br>
+    <label>Lugar</label>
+    <input type="text" value="@ViewBag.Compra.ActComprada.DatosLugar.Nombre" readonly />
+    <br>
+    <label>Fecha</label>
+    <input type="text" value="@ViewBag.Compra.ActComprada.FechaHora" readonly />
+    <br>
+    <label>Cantidad de Entradas adquiridas</label>
+    <input type="text" value="@ViewBag.Compra.CantEntradas" readonly />
+    <br>
+    <label>¿Está seguro que desea cancelar?</label>
+    <br>
+    <input type="submit" value="Cancelar" />
+
+</form>
+
+<p>@ViewBag.msg</p>

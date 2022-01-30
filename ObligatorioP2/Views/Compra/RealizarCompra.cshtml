@@ -1,0 +1,49 @@
+﻿<h1>Realizar compra de Actividad</h1>
+
+
+<form method="post" id="compraRealizada">
+
+
+    <label>Nombre</label>
+    <input type="text" name="nombre" value="@ViewBag.actividad.Nombre" readonly />
+    <br>
+    <label>Fecha</label>
+    <input type="text" name="fecha" value="@ViewBag.actividad.FechaHora" readonly />
+    <br>
+    <label>Lugar</label>
+    <input type="text" name="lugar" value="@ViewBag.actividad.DatosLugar.Nombre" readonly />
+    <br>
+    <label>Precio Final</label>
+    <input type="text" id="precioF" name="pFinal" value="@ViewBag.actividad.PrecioFinal()" readonly />
+    <br>
+    <label>Cantidad de entradas:</label>
+    <input type="number" id="cantEntradas" name="cEntradas" />
+
+    <input type="submit" value="Comprar">
+
+
+</form>
+
+<p id="pMensaje">@ViewBag.msg</p>
+
+@section Scripts{
+    <script>
+        document.querySelector("#compraRealizada").addEventListener('submit', compraFinal)
+
+        function compraFinal(evento) {
+            evento.preventDefault();
+
+            let cantidadEntradas = Number(document.querySelector("#cantEntradas").value);
+
+
+            if (cantidadEntradas > 0) {
+                this.submit();
+            } else {
+                document.querySelector("#pMensaje").innerHTML = "Compra inválida";
+            }
+
+        }
+
+    
+    </script>
+}

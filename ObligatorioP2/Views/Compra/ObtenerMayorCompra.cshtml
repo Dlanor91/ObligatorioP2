@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Obligatorio.Compra>
+
+@{
+    ViewData["Title"] = "ObtenerMayorCompra";
+}
+
+<h1>Obtener la mayor compra</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Actividad
+            </th>
+            <th>
+                Usuario
+            </th>
+            <th>
+                Cantidad de Entradas
+            </th>
+            <th>
+                Fecha y Hora
+            </th>
+            <th>
+                Precio Final
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.ActComprada.Nombre
+            </td>
+            <td>
+                @item.UsuarioCompra.Nombre @item.UsuarioCompra.Apellido
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantEntradas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaHora)
+            </td>
+            <td>
+                @item.PrecioFinalCompra()
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

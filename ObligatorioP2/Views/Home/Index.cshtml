@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "Bienvenido";
+}
+<h3 class="text-center">Bienvenido a nuestra aplicación de Gestión de Actividades</h3>
+@if (Context.Session.GetString("datosUsuario") != null)
+{
+    <div class="text-center row">
+        <figure class="col d-none d-sm-block text-center">
+            <img class="img-fluid img-thumbnail" src="~/img/Actividad-Yo-Aprendo-En-Casa.jpg" />
+        </figure>
+    </div>
+}
+else
+{
+<p class="text-center">Si desea acceder a todas las funciones de nuestra página debe <a asp-controller="Usuario" asp-action="Registro" class="text-decoration-none">Registrarse</a> o <a asp-controller="Usuario" asp-action="Login" class="text-decoration-none">Loguearse</a> </p>
+    <div class="text-center row">
+        <figure class="col d-none d-sm-block text-center">
+            <img class="img-fluid img-thumbnail" src="~/img/act.jpg" />
+        </figure>
+    </div>
+
+}
+
+<style>
+    a:hover {
+        border-bottom: 1px solid black;        
+    }
+</style>

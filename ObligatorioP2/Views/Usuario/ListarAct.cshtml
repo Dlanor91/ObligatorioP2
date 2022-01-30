@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Http;
+@model IEnumerable<Obligatorio.Actividad>
+
+@{
+    ViewData["Title"] = "Lista de Actividades";
+}
+
+<h1>Listado de Actividades</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                Categoría
+            </th>
+            <th>
+                Fecha y Hora
+            </th>
+            <th>
+                Lugar
+            </th>
+            <th>
+                Edad Mínima
+            </th>
+            <th>
+                Me Gusta
+            </th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @item.CategoriaTipo.Nombre
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaHora)
+                </td>
+                <td>
+                    @item.DatosLugar.Nombre
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EdadMinima)
+                </td>
+                <td>
+                    @item.MeGusta
+                </td>
+                <td> @item.PrecioFinal()</td>
+                <td>
+                    @if (Context.Session.GetString("datosUsuario") != null && Context.Session.GetString("usuarioRol") == "Usuario")
+                    {
+                        @Html.ActionLink("Comprar", "RealizarCompra", "Compra", new { id = item.ID }) 
+                        @(" | ")
+                        @Html.ActionLink("Me gusta", "MeGusta", new { id = item.ID })
+                    }
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>

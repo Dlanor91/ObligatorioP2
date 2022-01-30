@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Estadísticas";
+}
+<h1>Estadísticas</h1>
+<nav class="row">
+    <article class="col-12 col-md">
+        <a asp-controller="Usuario" asp-action="ListarActPorNombre">
+            <h3>Listar Actividades buscadas por lugar</h3>
+            <figure>
+                <img src="~/img/Buscador-de-Act.png" title="Listar Actividades buscadas por lugar" alt="Listar Actividades buscadas por lugar" class="img-fluid" />
+            </figure>
+        </a>
+    </article>
+    <article class="col-12 col-md">
+        <a asp-controller="Usuario" asp-action="ListarActPorFechaCateg">
+            <h3 >Listar Actividades por fechas y categorias</h3>
+            <figure>
+                <img src="~/img/Buscadores-de-Actividades-Fecha.jpg" title="Listar Actividades por fechas y categorias" alt="Listar Actividades por fechas y categorías" class="img-fluid" />
+            </figure>
+        </a>
+    </article>
+    <article class="col-12 col-md">
+        <a asp-controller="Compra" asp-action="ObtenerMayorCompra">
+            <h3>Obtener las compras de mayor valor</h3>
+            <figure>
+                <img src="~/img/Compras-Buscar.jpg" title="Obtener las compras de mayor valor" alt="Obtener las compras de mayor valor" class="img-fluid" />
+            </figure>
+        </a>
+    </article>
+</nav>
+
+<style>
+    h3{
+        position:absolute;
+        top:10px;
+        background-color:aliceblue;
+        width:90%;
+        font-size:17px;  
+        padding:5px;
+    }
+
+     a:hover {
+            opacity: 0.8;
+            border: 3px solid black;
+     }
+     
+</style>

@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="Proyecto Final, .Net, C#, CSS, HTM, Bootstrap, ORT">
+    <meta name="description" content="Proyecto Estudiantel Obligatorio Programación 2, ORT">
+    <meta name="author" content="Ronald Lima - rl8506@gmail.com, Natalia Didac - naty_didac@hotmail.com, Mauricio Fernández - mfernandez@giberol.com.uy">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] Obligatorio Programación 2</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                @*Para todos los usuarios*@
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @if (Context.Session.GetString("datosUsuario") == null)
+                        { //se deshabilita cuando se loguean
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Registro">Registro</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            @*Para todos los usuarios*@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="ListarAct">Listar Actividades</a>
+                        </li>
+
+                        @if (Context.Session.GetString("datosUsuario") != null && Context.Session.GetString("usuarioRol") == "Usuario")
+                        { //se deshabilita cuando se loguean
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Compra" asp-action="VerCompras">Compras Realizadas</a>
+                            </li>
+                        }
+
+
+                        @if (Context.Session.GetString("datosUsuario") != null && Context.Session.GetString("usuarioRol") == "Admin")@*Para el Admin*@
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="ListarUsuarios">Listar Usuarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Compra" asp-action="BuscarComp">Buscar Compras</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Estadisticas">Estadísticas</a>
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+                @if (Context.Session.GetString("datosUsuario") != null) //Para cuando se loguean se vea quien esta logueado
+                {
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav text-right ">
+                            <li class="nav-item">
+                                <span class="nav-link text-dark"><strong> @Context.Session.GetString("usuarioRol") : @Context.Session.GetString("datosUsuario")</strong></span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="CerrarSesion">Cerrar Sesión</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+
+         </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+            
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="row">
+            <p class="col-10 mx-1">&copy; 2021 - Obligatorio Programación 2 - Ronald Lima - Mauricio Fernández - Natalia Didac</p> 
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+<style>
+    footer p{        
+        text-align:center;
+        font-size:14px;
+    }
+</style>

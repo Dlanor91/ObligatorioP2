@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+    <form id="formLogin" method="post" class="container-fluid">
+        <article class="row">
+            <label for="nombreUsuario" class="col-12 col-sm-2 col-xl-1 mr-sm-1">Usuario</label>
+            <input type="text" id="nombreUsuario" name="nombreUsuario" class="col-3" />
+        </article>
+        <article class="row">
+            <label for="contrasenna" class="col-12 col-sm-2 col-xl-1 mr-sm-1">Contraseña</label>
+            <input type="password" id="contrasenna" name="contrasenna" class="col-3" />
+        </article>
+        <input type="submit" value="Ingresar"/>
+    </form>
+
+<p id="pMensaje">@ViewBag.Error</p>
+
+
+
+@section Scripts{
+    <script>
+        document.querySelector("#formLogin").addEventListener('submit', evaluarLogin)
+
+        function evaluarLogin(evento) {
+            evento.preventDefault();
+            let nombreUsuario = document.querySelector("#nombreUsuario").value;
+            let contrasenna = document.querySelector("#contrasenna").value;
+            @*Validacion nombre de usuario*@
+            if (nombreUsuario != "") {
+                @*Validacion contraseña*@
+                if (contrasenna == "") {
+                    document.querySelector("#pMensaje").innerHTML = "Complete el campo contraseña.";
+                } else {
+                    if (contrasenna.length < 6) {
+                        document.querySelector("#pMensaje").innerHTML = "La contraseña debe tener mínimo 6 carateres.";
+                    }
+                    else {
+                        this.submit();
+                    }
+                }
+            } else {
+                document.querySelector("#pMensaje").innerHTML = "Complete los campos para poder ingresar.";
+            }
+
+        }
+    </script>
+}
+

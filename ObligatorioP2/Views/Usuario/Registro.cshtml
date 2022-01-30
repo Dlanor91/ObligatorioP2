@@ -1,0 +1,129 @@
+﻿@model Obligatorio.Usuario
+
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h1>Registro</h1>
+
+<h4>Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Registro" method="post" id="formRegistro">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" name="Nombre" id="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Apellido" class="control-label"></label>
+                <input asp-for="Apellido" name="Apellido" id="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" name="Email" id="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaNac" class="control-label">Fecha de nacimiento</label>
+                <input asp-for="FechaNac" type="date" name="FechaNac" id="FechaNac" class="form-control" />
+               
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreUsuario" class="control-label">Nombre de Usuario</label>
+                <input asp-for="NombreUsuario" name="NombreUsuario" id="NombreUsuario" class="form-control" />
+                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contrasenna" class="control-label">Contraseña</label>
+                <input asp-for="Contrasenna" type="password" name="Contrasenna" id="Contrasenna" class="form-control" />
+                <span asp-validation-for="Contrasenna" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Registrarse" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<p id="pMensaje">@ViewBag.Msg</p>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.querySelector("#formRegistro").addEventListener('submit', evaluarRegistro)
+
+        function evaluarRegistro(evento) {
+            evento.preventDefault();
+
+            let nombre = document.querySelector("#Nombre").value;
+            let apellido = document.querySelector("#Apellido").value;
+            let email = document.querySelector("#Email").value;
+            let fechaNac = document.querySelector("#FechaNac").value;
+            let nombreUsuario = document.querySelector("#NombreUsuario").value;
+            let contrasenna = document.querySelector("#Contrasenna").value;
+            @*Validacion de campos del form*@
+            if (nombre.length >= 2 && apellido.length >= 2 && email != "" && fechaNac != "" && nombreUsuario != "") {
+            @* Validacion Email*@
+                if (emailEsValido(email)) {
+                @*Validacion contraseña*@
+                    if (contrasenna == "") {
+                        document.querySelector("#pMensaje").innerHTML = "Complete el campo contraseña.";
+                    } else {
+                        if (contrasenna.length < 6) {
+                            document.querySelector("#pMensaje").innerHTML = "La contraseña debe tener más de 6 carácteres.";
+                        }
+                        else if (validarPwd(contrasenna)) {
+                            this.submit();
+                        } else {
+                            document.querySelector("#pMensaje").innerHTML = "La contraseña debe tener al menos un número, una minúscula y una mayúscula.";
+                        }
+                    }
+                } else {
+                    document.querySelector("#pMensaje").innerHTML = "El email ingresado no parece ser válido, intente nuevamente.";
+                }
+            } else {
+                document.querySelector("#pMensaje").innerHTML = "Complete todos los campos. Verifique que el nombre y el apellido contengan al menos dos caracteres.";
+            }
+
+        }
+
+        function emailEsValido(email) {
+            if (email.indexOf("@@") != -1 && email.endsWith(".com")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function validarPwd(contrasennaIngresada) {
+
+            
+            let caracterMayuscula = 0  //contar la cantidad de caracteres en mayusculas
+            let caracterMinusculas = 0 //contar la cantidad de caracteres en minusculas
+            let cantNumeros = 0        //contar la cantidad de numeros
+
+            if (contrasennaIngresada.length >= 6) {
+                for (let i = 0; i < contrasennaIngresada.length; i++) {
+                    if (Number(contrasennaIngresada.charAt(i)) >= 0 || Number(contrasennaIngresada.charAt(i)) <= 9) {
+                        cantNumeros++;
+                    } else if (contrasennaIngresada.charAt(i) === contrasennaIngresada.charAt(i).toUpperCase()) {
+                        caracterMayuscula++;
+                    } else if (contrasennaIngresada.charAt(i) === contrasennaIngresada.charAt(i).toLowerCase()) {
+                        caracterMinusculas++;
+                    }
+                }
+                if (caracterMinusculas > 0 && caracterMayuscula > 0 && cantNumeros > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+        }
+    </script>
+}

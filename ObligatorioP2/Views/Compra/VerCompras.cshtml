@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Obligatorio.Compra>
+
+@{
+    ViewData["Title"] = "Ver Compras";
+}
+
+<h1>Compras Realizadas</h1>
+@if (ViewBag.msg!=null) { 
+<p>@ViewBag.msg</p>
+            }
+            else { 
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Actvidad
+            </th>
+            <th>
+                Cantidad de Entradas
+            </th>
+            <th>
+                Fecha de la Actividad
+            </th>
+            <th>
+                Estado de Compra
+            </th>
+            <th>
+                Precio Final
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+
+            <tr>
+                <td>
+                    @item.ActComprada.Nombre
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.CantEntradas)
+                </td>
+                <td>
+                    @item.ActComprada.FechaHora
+                </td>
+
+                @if (item.EstadoCompra)
+                {
+
+
+                    <td>Vigente</td>
+
+                }
+                else
+                {
+
+
+                    <td>Cancelada</td>
+                }
+                <td>
+                    @item.PrecioFinalCompra()
+                </td>
+                <td>
+                    @{var fechaMenosUnDia = item.ActComprada.FechaHora.AddDays(-1); }
+
+                    @if (item.EstadoCompra && DateTime.Now <= fechaMenosUnDia)
+                    {
+                        @Html.ActionLink("Cancelar", "CancelarCompra", new { id = item.ID })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
+                        }
